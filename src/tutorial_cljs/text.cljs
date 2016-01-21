@@ -1,21 +1,56 @@
 (ns tutorial-cljs.text)
 
 (def text
-  "
+  ";; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+;; An Interactive Introduction to ClojureScript
 ;; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-;; An Introduction to ClojureScript for Light Table users
-;; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+;; Adapted from David Nolen's tutorial for Light Table users
+;; https://github.com/swannodette/lt-cljs-tutorial/blob/master/lt-cljs-tutorial.cljs
+
+;; Using this Tutorial
+;; ============================================================================
+
+;; # Evaluating forms
+;;
+;; You can evaluate forms in this tutorial by putting your cursor at the end of
+;; the form and pressing \"Cmd-Enter\". The output will be displayed to the
+;; right of your cursor. You can dismiss the output view (if it's in your way)
+;; with \"Cmd-Shift-Enter\".
+;;
+;; Try evaluating this:
+
+(+ 1 2) ; <- put your cursor right after the closing ) and press Cmd-Enter
+
+;; ^ You can also put your cursor on the following line and press Cmd-Enter
+
+;; Ok, that was cool, but how about some data that's more complicated?
+
+{:some 10
+ :other 20
+ :list (range 10)} ; evaluate this, and you'll be able to interact with the result
+
+;; # Documentation + auto-complete
+;;
+;; If you click `range` in that code above, the documentation for the range
+;; function will appear in the bottom-right corner of this page. You can type
+;; into this document, and documentation + auto-complete suggestions will
+;; appear. Press Tab (and Shift-Tab) to cycle through the suggestions.
+;;
+;; Go ahead, put your cursor at the end of `map`, and see what other functions
+;; have `map` in the name.
+
+map
+
+;; # The REPL
+;;
+;; The right hand pane is a REPL where you can type in clojurescript code and
+;; see the results. It will show you documentation + auto-complete suggestions
+;; as well.
 
 
 ;; Basics
 ;; ============================================================================
-
-;; To begin, open the command pane (type Control-SPACE), Add Connection, select
-;; Light Table UI. Once connected you can evaluate all the forms in this file
-;; by placing the cursor after the form and typing Command-ENTER.
-
-;; NOTE: We've evaluated the namespace definition for you already, so if you
-;; type ::hello in the REPL, you'll see `:lt-cljs-tutorial.main/hello'
 
 ;; Declaring a namespaces
 ;; ----------------------------------------------------------------------------
@@ -24,7 +59,10 @@
 ;; logical definitions together.
 
 (ns lt-cljs-tutorial.main
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as str]))
+
+;; NOTE: We've evaluated this namespace definition for you already, so if you
+;; type ::hello in the REPL, you'll see `:lt-cljs-tutorial.main/hello'
 
 ;; :require is how you can import functionality from a different namespace into
 ;; the current one. Here we are requiring `clojure.string` and giving it an
@@ -34,7 +72,7 @@
 
 ;; But that's really verbose compared to:
 
-(string/blank? \"\")
+(str/blank? \"\")
 
 
 ;; Comments
@@ -50,7 +88,7 @@
 
 ;; Try to reveal the secret message below:
 
-(str \"The secret word is \" #_(string/reverse \"tpircSerujolC\"))
+(str \"The secret word is \" #_(str/reverse \"tpircSerujolC\"))
 
 ;; Finally, you can also create a comment using the `comment` macro. One common
 ;; technique is to use the `comment` macro to include code to be evaluated in a
@@ -62,12 +100,12 @@
 
 (comment
 
-  (string/upper-case \"This is only a test...\")
+  (str/upper-case \"This is only a test...\")
 
   )
 
 ;; The `comment` macro makes the whole form return `nil`. Now go back and
-;; highlight just the middle line, then type Command-ENTER. In this way
+;; place your cursor after the middle line, then type Command-ENTER. In this way
 ;; you can include code samples or quick tests in-line with the rest of
 ;; your code.
 
@@ -386,8 +424,6 @@ a-map
 ;; in your source.
 
 (identity {:user/foo ::foo})
-
-;; Namespaced keywords are essential to Light Table's modularity.
 
 
 ;; Sets
@@ -1224,9 +1260,7 @@ x
 ;; specify
 ;; ----------------------------------------------------------------------------
 
-;; Light Table ships with a older version of ClojureScript and does not yet
-;; support specify
-
+;; TODO fill this out
 
 ;; Macros
 ;; ============================================================================
@@ -1397,14 +1431,14 @@ x
 ;; new one, you can use 'update-in', like with maps.
 
 (update-in (contact \"Bob\" \"Smith\" \"bob.smith@acme.com\")
-           [:person :first] #(string/replace %1 #\"Bob\" %2) \"Robert\")
+           [:person :first] #(str/replace %1 #\"Bob\" %2) \"Robert\")
 
 ;; As said, the main difference with the majority of OO languages is that your
 ;; instances of deftypes/defrecords are immutable.
 
 (def bob (contact \"Bob\" \"Smith\" \"bob.smith@acme.com\"))
 
-(update-in bob [:person :first] #(string/replace %1 #\"Bob\" %2) \"Robert\")
+(update-in bob [:person :first] #(str/replace %1 #\"Bob\" %2) \"Robert\")
 
 (get-in bob [:person :first])
 

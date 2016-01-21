@@ -4,6 +4,7 @@
 
             [reepl.show-function :as show-function]
             [reepl.show-devtools :as show-devtools]
+            [reepl.show-value :as show-value]
 
             [tutorial-cljs.text :as text]
 
@@ -14,7 +15,12 @@
 
             [reagent.core :as r]))
 
-(defn get-active-form
+(defn to-pos [obj]
+  {:line (.-line obj)
+   :ch (.-ch obj)})
+
+;; TODO if you are at the start of a token, then return that one...
+(defn get-form-at-cursor
   "Returns [form-as-string end-pos]"
   [cm cursor]
   (let [token (.getTokenAt cm cursor)]
@@ -27,7 +33,7 @@
                       to #js {:line (.-line to)
                               :ch (inc (.-ch to))}]
                   [(.getRange cm from to) to])
-      nil (if (or (= 0 (.-start token))
+      ("comment" nil) (if (or (= 0 (.-start token))
                   (= 0 (count (.-string token))))
             (when-not (= 0 (.-line cursor))
               (js/console.log token)
@@ -40,6 +46,16 @@
                                                :ch (.-end token)}]
       [(.-string token) #js {:line (.-line cursor)
                              :ch (.-end token)}])))
+
+(defn get-active-form
+  "Returns [form-as-string end-pos]"
+  [cm]
+  (let [selection (first (.listSelections cm))
+        start (to-pos (.-anchor selection))
+        end (to-pos (.-head selection))]
+    (if (= start end)
+      (get-form-at-cursor cm (.getCursor cm))
+      [(.getSelection cm) (clj->js end)])))
 
 ;; Used to make the repl reload-tolerant
 (defonce repl-state
@@ -77,47 +93,18 @@
 
 (defonce pi-count (atom 0))
 
-(def current-display (atom nil))
+(def display-el (js/document.createElement "div"))
 
-(defn replace-current [new-value]
+(defn hide-display []
+  (.removeChild (.-parentNode display-el) display-el))
+
+#_(defn replace-current [new-value]
   (js/console.log "replacing")
   (swap! current-display
-         #(do
-            (when %
-              (js/console.log "removing" %)
-              (.removeChild (.-parentNode %) %))
-            new-value)))
-
-(defn make-node [result]
-  (let [output (pr-str result)
-        container (js/document.createElement "div")
-        node (js/document.createElement "div")]
-    (aset node "textContent" output)
-    ;;(aset node "textContent" output)
-    (aset node "style" "position" "absolute")
-    (aset node "style" "top" "-1.5em")
-    (aset node "style" "left" "2em")
-    (aset node "style" "opacity" .8)
-    (aset node "style" "zIndex" "100000")
-    (aset node "style" "whiteSpace" "pre")
-    (aset node "style" "backgroundColor" "#eee")
-    (aset node "style" "padding" "5px")
-    (aset node "style" "borderRadius" "5px")
-    (.appendChild container node)
-    container))
-
-(defn show-output [cm pos success? value]
-  ;; TODO display things cooler. using cljs-devtools, etc.
-  (let [container (make-node value)]
-    ;; (js* "debugger;")
-    (.addWidget cm pos container true)
-    (replace-current container)))
-
-;; TODO only show one result at a time...
-(defn eval-current-form [cm]
-  (when-let [[form pos] (get-active-form cm (.getCursor cm))]
-    (js/console.log "things" form)
-    (reepl-replumb/run-repl form (partial show-output cm pos))))
+         #(do (when %
+                (js/console.log "removing" %)
+                (.removeChild (.-parentNode %) %))
+              new-value)))
 
 (def styles
   {:container {:display :flex
@@ -144,10 +131,54 @@
            :font-size ".8em"
            :cursor :pointer}
    :checkbox {:margin-right 5}
+
+   :output-wrapper {:position :relative
+                    :top "-1.5em"
+                    :left "2em"
+                    :background-color :white
+                    :box-shadow "0 0 5px #aaa"
+                    ;; :opacity 0.9
+                    :z-index 10000
+                    :padding 5
+                    :border-radius 5}
+   :error {
+           :background-color :white
+           :color :red
+           }
+   :error-cause {:margin-left 10}
    :link {:color "#aaa"
           :text-decoration :none
           :margin "2px 20px 0"}
    })
+
+(defn show-error [error]
+  (let [cause (.-cause error)]
+    [:div {:style (:error styles)}
+     (.-message error)
+     (when cause
+       [:span {:style (:error-cause styles)}
+        (.-message cause)])]))
+
+(defn show-output-view [success? value]
+  [:div {:style (:output-wrapper styles)}
+   (if-not success?
+     [show-error value]
+     [reepl.show-value/show-value
+      value
+      nil
+      {:showers [reepl.show-devtools/show-devtools
+                 reepl.show-function/show-fn]}])])
+
+(defn show-output [cm pos success? value]
+  ;; TODO display things cooler. using cljs-devtools, etc.
+  ;; (js* "debugger;")
+  (r/render (show-output-view success? value) display-el)
+  (.addWidget cm pos display-el true))
+
+(defn eval-current-form [cm]
+  (when-let [[form pos] (get-active-form cm)]
+    (js/console.log "things" form)
+    (reepl-replumb/run-repl form (partial show-output cm pos))))
 
 (defn checkbox [keyword title]
   [:label
@@ -167,7 +198,7 @@
    {:style (:container styles)}
    [:div {:style (:repl styles)}
     [reepl/repl
-     :execute reepl-replumb/run-repl
+     :execute #(reepl-replumb/run-repl %1 {:warning-as-error (:warning-as-error @settings)} %2)
      :complete-word reepl-replumb/process-apropos
      :get-docs reepl-replumb/process-doc
      :state repl-state
@@ -194,7 +225,7 @@
   (js/console.log repl-el)
   (r/render [main-view] repl-el))
 
-(reepl-replumb/run-repl "(ns lt-cljs-tutorial.main (:require [clojure.string :as string]))" identity)
+(reepl-replumb/run-repl "(ns lt-cljs-tutorial.main (:require [clojure.string :as str]))" identity)
 
 (defn render-text []
   (let [text-el (js/document.getElementById "text")]
@@ -207,7 +238,7 @@
             :cursorScrollMargin 5
             :value text/text
             :keyMap (if (:vim @settings) "vim" "default")
-            :extraKeys #js {"Shift-Cmd-Enter" (fn [_] (replace-current nil))
+            :extraKeys #js {"Shift-Cmd-Enter" (fn [_] (hide-display))
                             "Cmd-Enter" (fn [cm]
                                           (eval-current-form cm))}
             :autoCloseBrackets true
@@ -240,7 +271,7 @@
     ))
 
 (add-watch settings :settings #(do
-                                 (render-text)
+                                 ;; (render-text)
                                  (save-settings %4)))
 
 (defonce -setup-text
