@@ -233,6 +233,10 @@
     (.on text-mirror "keyup"
          (fn [inst evt]
            (reepl.code-mirror/complete-keyup complete-cmd (.-keyCode evt) inst)))
+
+    (.addEventListener text-el "mouseup"
+                       (fn [evt]
+                         ((complete-cmd :set) (reepl.code-mirror/get-word-and-range text-mirror))))
     ))
 
 (add-watch settings :settings #(do
