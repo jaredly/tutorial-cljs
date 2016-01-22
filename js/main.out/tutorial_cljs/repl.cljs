@@ -120,8 +120,7 @@
     [reepl/repl
      :execute #(reepl-replumb/run-repl %1
                                        (merge replumb-opts
-                                              {:verbose true
-                                               :warning-as-error (:warning-as-error @settings)}) %2)
+                                              {:warning-as-error (:warning-as-error @settings)}) %2)
      :complete-word auto-complete
      :get-docs get-docs
      :state repl-state

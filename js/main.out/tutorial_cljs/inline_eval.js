@@ -18,16 +18,16 @@ while(true){
 var token = cm.getTokenAt(cursor);
 console.log("token",token);
 
-var G__21128 = token.type;
-if(cljs.core._EQ_.call(null,"bracket",G__21128)){
+var G__21126 = token.type;
+if(cljs.core._EQ_.call(null,"bracket",G__21126)){
 var rr = cm.findMatchingBracket(cursor);
-var vec__21129 = (cljs.core.truth_(rr.forward)?new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [rr.from,rr.to], null):new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [rr.to,rr.from], null));
-var from = cljs.core.nth.call(null,vec__21129,(0),null);
-var to = cljs.core.nth.call(null,vec__21129,(1),null);
+var vec__21127 = (cljs.core.truth_(rr.forward)?new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [rr.from,rr.to], null):new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [rr.to,rr.from], null));
+var from = cljs.core.nth.call(null,vec__21127,(0),null);
+var to = cljs.core.nth.call(null,vec__21127,(1),null);
 var to__$1 = {"line": to.line, "ch": (to.ch + (1))};
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cm.getRange(from,to__$1),to__$1], null);
 } else {
-if(cljs.core._EQ_.call(null,"comment",G__21128)){
+if(cljs.core._EQ_.call(null,"comment",G__21126)){
 if((cljs.core._EQ_.call(null,(0),token.start)) || (cljs.core._EQ_.call(null,(0),cljs.core.count.call(null,token.string)))){
 if(cljs.core._EQ_.call(null,(0),cursor.line)){
 return null;
@@ -35,21 +35,21 @@ return null;
 console.log(token);
 
 var line = cm.getLine((cursor.line - (1)));
+var G__21128 = cm;
+var G__21129 = {"line": (cursor.line - (1)), "ch": cljs.core.count.call(null,line)};
+cm = G__21128;
+cursor = G__21129;
+continue;
+}
+} else {
 var G__21130 = cm;
-var G__21131 = {"line": (cursor.line - (1)), "ch": cljs.core.count.call(null,line)};
+var G__21131 = {"line": cursor.line, "ch": token.start};
 cm = G__21130;
 cursor = G__21131;
 continue;
 }
 } else {
-var G__21132 = cm;
-var G__21133 = {"line": cursor.line, "ch": token.start};
-cm = G__21132;
-cursor = G__21133;
-continue;
-}
-} else {
-if(cljs.core._EQ_.call(null,null,G__21128)){
+if(cljs.core._EQ_.call(null,null,G__21126)){
 if((cljs.core._EQ_.call(null,(0),token.start)) || (cljs.core._EQ_.call(null,(0),cljs.core.count.call(null,token.string)))){
 if(cljs.core._EQ_.call(null,(0),cursor.line)){
 return null;
@@ -57,21 +57,21 @@ return null;
 console.log(token);
 
 var line = cm.getLine((cursor.line - (1)));
+var G__21132 = cm;
+var G__21133 = {"line": (cursor.line - (1)), "ch": cljs.core.count.call(null,line)};
+cm = G__21132;
+cursor = G__21133;
+continue;
+}
+} else {
 var G__21134 = cm;
-var G__21135 = {"line": (cursor.line - (1)), "ch": cljs.core.count.call(null,line)};
+var G__21135 = {"line": cursor.line, "ch": token.start};
 cm = G__21134;
 cursor = G__21135;
 continue;
 }
 } else {
-var G__21136 = cm;
-var G__21137 = {"line": cursor.line, "ch": token.start};
-cm = G__21136;
-cursor = G__21137;
-continue;
-}
-} else {
-if(cljs.core._EQ_.call(null,"string",G__21128)){
+if(cljs.core._EQ_.call(null,"string",G__21126)){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [[cljs.core.str("\""),cljs.core.str(token.string)].join(''),{"line": cursor.line, "ch": token.end}], null);
 } else {
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [token.string,{"line": cursor.line, "ch": token.end}], null);
@@ -119,9 +119,9 @@ return cm.addWidget(pos,tutorial_cljs.inline_eval.display_el,true);
 tutorial_cljs.inline_eval.eval_current_form = (function tutorial_cljs$inline_eval$eval_current_form(cm){
 var temp__4425__auto__ = tutorial_cljs.inline_eval.get_active_form.call(null,cm);
 if(cljs.core.truth_(temp__4425__auto__)){
-var vec__21139 = temp__4425__auto__;
-var form = cljs.core.nth.call(null,vec__21139,(0),null);
-var pos = cljs.core.nth.call(null,vec__21139,(1),null);
+var vec__21137 = temp__4425__auto__;
+var form = cljs.core.nth.call(null,vec__21137,(0),null);
+var pos = cljs.core.nth.call(null,vec__21137,(1),null);
 var form__$1 = form.trim();
 var is_list = cljs.core._EQ_.call(null,"(",cljs.core.first.call(null,form__$1));
 var first_item = (function (){var and__6441__auto__ = is_list;

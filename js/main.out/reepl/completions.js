@@ -18,15 +18,15 @@ reepl.completions.text = cljs.core.partial.call(null,reepl.helpers.text,reepl.co
 reepl.completions.button = cljs.core.partial.call(null,reepl.helpers.button,reepl.completions.styles);
 reepl.completions.canScrollIfNeeded = !((document.body.scrollIntoViewIfNeeded == null));
 reepl.completions.completion_item = (function reepl$completions$completion_item(text,is_selected,is_active,set_active){
-return reagent.core.create_class.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"component-did-update","component-did-update",-1468549173),(function (this$,p__16293){
-var vec__16294 = p__16293;
-var _ = cljs.core.nth.call(null,vec__16294,(0),null);
-var ___$1 = cljs.core.nth.call(null,vec__16294,(1),null);
-var old_is_selected = cljs.core.nth.call(null,vec__16294,(2),null);
-var vec__16295 = reagent.core.argv.call(null,this$);
-var ___$2 = cljs.core.nth.call(null,vec__16295,(0),null);
-var ___$3 = cljs.core.nth.call(null,vec__16295,(1),null);
-var is_selected__$1 = cljs.core.nth.call(null,vec__16295,(2),null);
+return reagent.core.create_class.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"component-did-update","component-did-update",-1468549173),(function (this$,p__16636){
+var vec__16637 = p__16636;
+var _ = cljs.core.nth.call(null,vec__16637,(0),null);
+var ___$1 = cljs.core.nth.call(null,vec__16637,(1),null);
+var old_is_selected = cljs.core.nth.call(null,vec__16637,(2),null);
+var vec__16638 = reagent.core.argv.call(null,this$);
+var ___$2 = cljs.core.nth.call(null,vec__16638,(0),null);
+var ___$3 = cljs.core.nth.call(null,vec__16638,(1),null);
+var is_selected__$1 = cljs.core.nth.call(null,vec__16638,(2),null);
 if(cljs.core.truth_((function (){var and__6441__auto__ = cljs.core.not.call(null,old_is_selected);
 if(and__6441__auto__){
 return is_selected__$1;
@@ -56,17 +56,17 @@ return and__6441__auto__;
 })()], null)], null),text__$1], null);
 })], null));
 });
-reepl.completions.completion_list = (function reepl$completions$completion_list(p__16298,set_active){
-var map__16301 = p__16298;
-var map__16301__$1 = ((((!((map__16301 == null)))?((((map__16301.cljs$lang$protocol_mask$partition0$ & (64))) || (map__16301.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__16301):map__16301);
-var pos = cljs.core.get.call(null,map__16301__$1,new cljs.core.Keyword(null,"pos","pos",-864607220));
-var list = cljs.core.get.call(null,map__16301__$1,new cljs.core.Keyword(null,"list","list",765357683));
-var active = cljs.core.get.call(null,map__16301__$1,new cljs.core.Keyword(null,"active","active",1895962068));
-var show_all = cljs.core.get.call(null,map__16301__$1,new cljs.core.Keyword(null,"show-all","show-all",715701051));
-var items = cljs.core.map_indexed.call(null,((function (map__16301,map__16301__$1,pos,list,active,show_all){
-return (function (p1__16297_SHARP_,p2__16296_SHARP_){
-return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [reepl.completions.completion_item,cljs.core.get.call(null,p2__16296_SHARP_,(2)),cljs.core._EQ_.call(null,p1__16297_SHARP_,pos),active,cljs.core.partial.call(null,set_active,p1__16297_SHARP_)], null);
-});})(map__16301,map__16301__$1,pos,list,active,show_all))
+reepl.completions.completion_list = (function reepl$completions$completion_list(p__16641,set_active){
+var map__16644 = p__16641;
+var map__16644__$1 = ((((!((map__16644 == null)))?((((map__16644.cljs$lang$protocol_mask$partition0$ & (64))) || (map__16644.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__16644):map__16644);
+var pos = cljs.core.get.call(null,map__16644__$1,new cljs.core.Keyword(null,"pos","pos",-864607220));
+var list = cljs.core.get.call(null,map__16644__$1,new cljs.core.Keyword(null,"list","list",765357683));
+var active = cljs.core.get.call(null,map__16644__$1,new cljs.core.Keyword(null,"active","active",1895962068));
+var show_all = cljs.core.get.call(null,map__16644__$1,new cljs.core.Keyword(null,"show-all","show-all",715701051));
+var items = cljs.core.map_indexed.call(null,((function (map__16644,map__16644__$1,pos,list,active,show_all){
+return (function (p1__16640_SHARP_,p2__16639_SHARP_){
+return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [reepl.completions.completion_item,cljs.core.get.call(null,p2__16639_SHARP_,(2)),cljs.core._EQ_.call(null,p1__16640_SHARP_,pos),active,cljs.core.partial.call(null,set_active,p1__16640_SHARP_)], null);
+});})(map__16644,map__16644__$1,pos,list,active,show_all))
 ,list);
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [reepl.completions.view,new cljs.core.Keyword(null,"completion-container","completion-container",51436015),(cljs.core.truth_(show_all)?cljs.core.into.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [reepl.completions.view,new cljs.core.Keyword(null,"completion-show-all","completion-show-all",1293356904)], null),items):null),((cljs.core.empty_QMARK_.call(null,items))?new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [reepl.completions.view,new cljs.core.Keyword(null,"completion-empty","completion-empty",424403284),"This is where completions show up"], null):cljs.core.into.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [reepl.completions.view,new cljs.core.Keyword(null,"completion-list","completion-list",-809135461)], null),items))], null);
 });

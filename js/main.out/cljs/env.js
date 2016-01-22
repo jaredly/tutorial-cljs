@@ -3,23 +3,23 @@ goog.provide('cljs.env');
 goog.require('cljs.core');
 cljs.env._STAR_compiler_STAR_ = null;
 cljs.env.default_compiler_env = (function cljs$env$default_compiler_env(var_args){
-var args11741 = [];
-var len__7511__auto___11744 = arguments.length;
-var i__7512__auto___11745 = (0);
+var args11739 = [];
+var len__7511__auto___11742 = arguments.length;
+var i__7512__auto___11743 = (0);
 while(true){
-if((i__7512__auto___11745 < len__7511__auto___11744)){
-args11741.push((arguments[i__7512__auto___11745]));
+if((i__7512__auto___11743 < len__7511__auto___11742)){
+args11739.push((arguments[i__7512__auto___11743]));
 
-var G__11746 = (i__7512__auto___11745 + (1));
-i__7512__auto___11745 = G__11746;
+var G__11744 = (i__7512__auto___11743 + (1));
+i__7512__auto___11743 = G__11744;
 continue;
 } else {
 }
 break;
 }
 
-var G__11743 = args11741.length;
-switch (G__11743) {
+var G__11741 = args11739.length;
+switch (G__11741) {
 case 0:
 return cljs.env.default_compiler_env.cljs$core$IFn$_invoke$arity$0();
 
@@ -29,7 +29,7 @@ return cljs.env.default_compiler_env.cljs$core$IFn$_invoke$arity$1((arguments[(0
 
 break;
 default:
-throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args11741.length)].join('')));
+throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args11739.length)].join('')));
 
 }
 });

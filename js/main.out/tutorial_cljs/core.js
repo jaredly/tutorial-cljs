@@ -35,4 +35,4 @@ var repl_el_21149 = document.getElementById("repl");
 console.log(repl_el_21149);
 
 reagent.core.render.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [tutorial_cljs.repl.repl_view], null),repl_el_21149);
-reepl.replumb.run_repl.call(null,"(ns tutorial.quil (:require [clojure.string :as str] [quil.core :as q]))",tutorial_cljs.repl.replumb_opts,cljs.core.identity);
+reepl.replumb.run_repl.call(null,"(ns tutorial.quil (:require [quil.core :as q]))",tutorial_cljs.repl.replumb_opts,cljs.core.identity);
