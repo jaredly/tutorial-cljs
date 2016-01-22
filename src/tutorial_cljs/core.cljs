@@ -45,6 +45,6 @@
   (js/console.log repl-el)
   (r/render [repl/repl-view] repl-el))
 
-(reepl-replumb/run-repl "(ns lt-cljs-tutorial.main (:require [clojure.string :as str] [quil.core :as q]))"
+(reepl-replumb/run-repl "(ns tutorial.quil (:require [clojure.string :as str] [quil.core :as q]))"
                         repl/replumb-opts
                         identity)

@@ -4,6 +4,7 @@
    [cljs.tools.reader :as reader]
    [reepl.replumb :as reepl-replumb]
    [tutorial-cljs.repl :as repl]
+   [tutorial-cljs.quil-sketch :as quil-sketch]
    ))
 
 (def styles
@@ -21,10 +22,6 @@
            :color :red}
    :error-cause {:margin-left 10}
    })
-
-;; TODO
-(defn handle-make-sketch [form]
-  (js/console.log "make sketch" form))
 
 (defn to-pos [obj]
   {:line (.-line obj)
@@ -45,14 +42,14 @@
                               :ch (inc (.-ch to))}]
                   [(.getRange cm from to) to])
       ("comment" nil) (if (or (= 0 (.-start token))
-                  (= 0 (count (.-string token))))
-            (when-not (= 0 (.-line cursor))
-              (js/console.log token)
-              (let [line (.getLine cm (dec (.-line cursor)))]
-                (recur cm #js {:line (dec (.-line cursor))
-                               :ch (count line)})))
-            (recur cm #js {:line (.-line cursor)
-                           :ch (- (.-ch cursor) (count (.-string token)))}))
+                              (= 0 (count (.-string token))))
+                        (when-not (= 0 (.-line cursor))
+                          (js/console.log token)
+                          (let [line (.getLine cm (dec (.-line cursor)))]
+                            (recur cm #js {:line (dec (.-line cursor))
+                                           :ch (count line)})))
+                        (recur cm #js {:line (.-line cursor)
+                                       :ch (.-start token)}))
       "string" [(str \" (.-string token)) #js {:line (.-line cursor)
                                                :ch (.-end token)}]
       [(.-string token) #js {:line (.-line cursor)
@@ -107,5 +104,5 @@
           first-item (and is-list
                           (reader/read-string (.slice form 1)))]
       (if (= first-item 'makesketch)
-        (handle-make-sketch (reader/read-string form))
+        (quil-sketch/handle-make-sketch (replumb.repl/current-ns) (reader/read-string form))
         (reepl-replumb/run-repl form repl/replumb-opts (partial show-output cm pos))))))

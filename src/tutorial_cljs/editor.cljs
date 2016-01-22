@@ -22,6 +22,9 @@
             :value text-quil/text
             :keyMap (if (:vim @repl/settings) "vim" "default")
             :extraKeys #js {"Shift-Cmd-Enter" (fn [_] (inline-eval/hide-display))
+                            "Shift-Ctrl-Enter" (fn [_] (inline-eval/hide-display))
+                            "Ctrl-Enter" (fn [cm]
+                                          (inline-eval/eval-current-form cm))
                             "Cmd-Enter" (fn [cm]
                                           (inline-eval/eval-current-form cm))}
             :autoCloseBrackets true
