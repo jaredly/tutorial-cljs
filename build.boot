@@ -95,8 +95,8 @@
    (add-jar-thing
     'org.clojure/tools.reader
     "cljs/tools/reader/reader_types.clj")
-   (sift :add-jar {'quil #"quil/.*"})
-   (sift :move {#"quil/" "js/main.out/quil/"})
+   #_(sift :add-jar {'quil #"quil/.*"})
+   #_(sift :move {#"quil/" "js/main.out/quil/"})
    #_(sift :move {#"quil/sketch.clj" "js/main.out/quil/sketch.clj"
                 #"quil/util.clj" "js/main.out/quil/util.clj"
                 })))
