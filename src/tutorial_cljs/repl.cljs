@@ -9,7 +9,7 @@
 
             [devtools.core :as devtools]
 
-            [tutorial-cljs.quil-docs :as quil-docs]
+            [tutorial-cljs.quil-complete :as quil-complete]
 
             [parinfer-codemirror.editor :as parinfer]
             [parinfer.codemirror.mode.clojure.clojure-parinfer]
@@ -99,46 +99,18 @@
             }]
    title])
 
-(def quil-names
-  (sort (map :name quil-docs/docs)))
-
-(def quil-map
-  (into {} (map #(-> [(:name %) (assoc % :type :normal :name (symbol 'quil.core (:name %)))]) quil-docs/docs)))
-
-(defn quil-prefix []
-  (let [nss (:requires (replumb.ast/namespace @replumb.repl/st (replumb.repl/current-ns)))
-        qss (filter #(= 'quil.core (second %)) nss)
-        name (first (first qss))]
-    name))
-
-(defn quil-complete [prefix text]
-  (let [name (second (.split text "/"))]
-    (->> quil-names
-     (filter
-      #(not (= -1 (.indexOf (str %) name))))
-     (map str)
-     (sort (partial reepl-replumb/compare-completion name))
-     (map
-      #(-> [(symbol prefix %) (str (symbol prefix %)) (str (symbol prefix %)) %]))
-     )))
-
-(defn quil-doc [text]
-  (let [name (second (.split text "/"))]
-    (with-out-str
-      (reepl-replumb/print-doc (quil-map (symbol name))))))
-
 (defn auto-complete [sym]
   (let [text (str sym)
-        quil (quil-prefix)]
+        quil (quil-complete/quil-prefix)]
     (if (and quil (= 0 (.indexOf text (str quil "/"))))
-      (quil-complete quil text)
+      (quil-complete/quil-complete quil text)
       (reepl-replumb/process-apropos sym))))
 
 (defn get-docs [sym]
   (let [text (str sym)
-        quil (quil-prefix)]
+        quil (quil-complete/quil-prefix)]
     (if (and quil (= 0 (.indexOf text (str quil "/"))))
-      (quil-doc text)
+      (quil-complete/quil-doc text)
       (reepl-replumb/process-doc sym))))
 
 (defn repl-view []
@@ -175,7 +147,3 @@
 (add-watch settings :settings #(do
                                  ;; (render-text)
                                  (save-settings %4)))
-
-(reepl-replumb/run-repl "(ns lt-cljs-tutorial.main (:require [clojure.string :as str] [quil.core :as q]))"
-                        replumb-opts
-                        identity)
