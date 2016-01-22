@@ -4,6 +4,8 @@ body {
     display: flex;
     flex-direction: row;
 
+    margin: 0;
+    padding: 8px;
     position: fixed;
     top: 0;
     left: 0;
