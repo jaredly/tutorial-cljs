@@ -28,6 +28,7 @@
     [weasel                  "0.7.0"  :scope "test"]
     [org.clojure/tools.nrepl "0.2.12" :scope "test"]
 
+    [org.clojure/tools.reader "1.0.0-alpha2"]
     [org.clojure/clojure         "1.7.0"]
     [org.clojure/core.typed "0.3.18"]
     [org.clojure/clojurescript   "1.7.228"]
@@ -56,7 +57,7 @@
       :license {"ISC License" "https://opensource.org/licenses/ISC"}}
  figwheel {:build-ids  ["dev"]
            :all-builds [{:id "dev"
-                         :compiler {:main 'tutorial-cljs.core
+                         #_:compiler #_{:main 'tutorial-cljs.core
                                     :output-to "main.js"}
                          :figwheel {:build-id  "dev"
                                     :on-jsload "tutorial-cljs.core/main"
@@ -72,25 +73,45 @@
   [{:file "vendor/clojure-parinfer.js"
     :provides ["parinfer.codemirror.mode.clojure.clojure-parinfer"]}])
 
-(deftask dev []
-  (set-env! :source-paths #{"src"})
-  (set-env! :asset-paths #{"static"})
+(defn add-jar-thing [package path]
+  (let [rx (re-pattern path)]
+    (comp
+     (sift :add-jar
+           {package rx})
+     (sift :move
+           {rx (str "js/main.out/" path)}))))
+
+(defn cljs-and-stuff [optimizations]
   (comp
-   (target :dir #{"dev"})
-   (serve :dir "dev" :port 3003)
-   (watch)
-   ;;(speak)
-   (reload :on-jsload 'reepl.example/main)
-   (cljs-repl)
    (cljs :source-map true
          :compiler-options {:foreign-libs foreign-libs}
-         :optimizations :none)
+         :optimizations optimizations)
    (sift :add-jar
          {'cljsjs/codemirror
           #"cljsjs/codemirror/development/codemirror.css"})
    (sift :move
          {#"cljsjs/codemirror/development/codemirror.css"
           "vendor/codemirror/codemirror.css"})
+   (add-jar-thing
+    'org.clojure/tools.reader
+    "cljs/tools/reader/reader_types.clj")
+   (sift :add-jar {'quil #"quil/.*"})
+   (sift :move {#"quil/" "js/main.out/quil/"})
+   #_(sift :move {#"quil/sketch.clj" "js/main.out/quil/sketch.clj"
+                #"quil/util.clj" "js/main.out/quil/util.clj"
+                })))
+
+(deftask dev []
+  (set-env! :source-paths #{"src"})
+  (set-env! :resource-paths #{"static"})
+  (comp
+   (target :dir #{"dev"})
+   (serve :dir "dev" :port 3003)
+   (watch)
+   ;; (speak)
+   (reload :on-jsload 'tutorial-cljs.core/main)
+   (cljs-repl)
+   (cljs-and-stuff :none)
    ))
 
 (deftask devfw []
@@ -99,15 +120,8 @@
 
 (deftask build []
   (set-env! :source-paths #{"src"})
-  (set-env! :asset-paths #{"static"})
+  (set-env! :resource-paths #{"static"})
   (comp
    (target :dir #{"build"})
-   (cljs :source-map true
-         :compiler-options {:foreign-libs foreign-libs}
-         :optimizations :simple)
-   (sift :add-jar {'cljsjs/codemirror
-                   #"cljsjs/codemirror/development/codemirror.css"})
-   (sift :move {#"cljsjs/codemirror/development/codemirror.css"
-                "vendor/codemirror/codemirror.css"})
+   (cljs-and-stuff :simple)
    ))
-

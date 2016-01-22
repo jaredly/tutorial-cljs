@@ -1,14 +1,23 @@
 (ns tutorial-cljs.core
   (:require [reepl.core :as reepl]
             [reepl.replumb :as reepl-replumb]
+            [replumb.core :as replumb]
 
             [reepl.show-function :as show-function]
             [reepl.show-devtools :as show-devtools]
             [reepl.show-value :as show-value]
 
-            [tutorial-cljs.text :as text]
+            [devtools.core :as devtools]
 
+            [tutorial-cljs.text :as text]
+            [tutorial-cljs.text-quil :as text-quil]
+            [tutorial-cljs.quil-docs :as quil-docs]
+
+            #_[quil.core]
+
+            [cljs.tools.reader :as reader]
             [cljsjs.codemirror]
+            [cljs.js :as jsc]
 
             [parinfer-codemirror.editor :as parinfer]
             [parinfer.codemirror.mode.clojure.clojure-parinfer]
@@ -56,6 +65,12 @@
     (if (= start end)
       (get-form-at-cursor cm (.getCursor cm))
       [(.getSelection cm) (clj->js end)])))
+
+(def replumb-opts
+  (merge (replumb/browser-options
+          ["/js/main.out" "/js/main.out"]
+          reepl-replumb/fetch-file!)))
+
 
 ;; Used to make the repl reload-tolerant
 (defonce repl-state
@@ -141,10 +156,8 @@
                     :z-index 10000
                     :padding 5
                     :border-radius 5}
-   :error {
-           :background-color :white
-           :color :red
-           }
+   :error {:background-color :white
+           :color :red}
    :error-cause {:margin-left 10}
    :link {:color "#aaa"
           :text-decoration :none
@@ -175,10 +188,20 @@
   (r/render (show-output-view success? value) display-el)
   (.addWidget cm pos display-el true))
 
+;; TODO
+(defn handle-make-sketch [form]
+  (js/console.log "make sketch" form))
+
 (defn eval-current-form [cm]
-  (when-let [[form pos] (get-active-form cm)]
-    (js/console.log "things" form)
-    (reepl-replumb/run-repl form (partial show-output cm pos))))
+  (when-let [[form pos] (get-active-form cm)
+             ]
+    (let [form (.trim form)
+          is-list (= \( (first form))
+          first-item (and is-list
+                          (reader/read-string (.slice form 1)))]
+      (if (= first-item 'makesketch)
+        (handle-make-sketch (reader/read-string form))
+        (reepl-replumb/run-repl form replumb-opts (partial show-output cm pos))))))
 
 (defn checkbox [keyword title]
   [:label
@@ -190,17 +213,59 @@
             }]
    title])
 
+(def quil-names
+  (sort (map :name quil-docs/docs)))
+
+(def quil-map
+  (into {} (map #(-> [(:name %) (assoc % :type :normal :name (symbol 'quil.core (:name %)))]) quil-docs/docs)))
+
+(defn quil-prefix []
+  (let [nss (:requires (replumb.ast/namespace @replumb.repl/st (replumb.repl/current-ns)))
+        qss (filter #(= 'quil.core (second %)) nss)
+        name (first (first qss))]
+    name))
+
+(defn quil-complete [prefix text]
+  (let [name (second (.split text "/"))]
+    (->> quil-names
+     (filter
+      #(not (= -1 (.indexOf (str %) name))))
+     (map str)
+     (sort (partial reepl-replumb/compare-completion name))
+     (map
+      #(-> [(symbol prefix %) (str (symbol prefix %)) (str (symbol prefix %)) %]))
+     )))
+
+(defn quil-doc [text]
+  (let [name (second (.split text "/"))]
+    (with-out-str
+      (reepl-replumb/print-doc (quil-map (symbol name))))))
+
+(defn auto-complete [sym]
+  (let [text (str sym)
+        quil nil #_(quil-prefix)]
+    (if (and quil (= 0 (.indexOf text (str quil "/"))))
+      (quil-complete quil text)
+      (reepl-replumb/process-apropos sym))))
+
+(defn get-docs [sym]
+  (let [text (str sym)
+        quil (quil-prefix)]
+    (if (and quil (= 0 (.indexOf text (str quil "/"))))
+      (quil-doc text)
+      (reepl-replumb/process-doc sym))))
+
 (def complete-cmd
-  (reepl/make-complete-cmd reepl-replumb/process-apropos complete-atom))
+  (reepl/make-complete-cmd auto-complete complete-atom))
 
 (defn main-view []
   [:div
    {:style (:container styles)}
    [:div {:style (:repl styles)}
     [reepl/repl
-     :execute #(reepl-replumb/run-repl %1 {:warning-as-error (:warning-as-error @settings)} %2)
-     :complete-word reepl-replumb/process-apropos
-     :get-docs reepl-replumb/process-doc
+     :execute #(reepl-replumb/run-repl %1 (merge replumb-opts {:verbose true :warning-as-error (:warning-as-error @settings)}) %2)
+     :complete-word auto-complete
+     :get-docs get-docs
      :state repl-state
      :complete-atom complete-atom
      :show-value-opts
@@ -236,7 +301,7 @@
        #js {:lineNumbers true
             :matchBrackets true
             :cursorScrollMargin 5
-            :value text/text
+            :value text-quil/text
             :keyMap (if (:vim @settings) "vim" "default")
             :extraKeys #js {"Shift-Cmd-Enter" (fn [_] (hide-display))
                             "Cmd-Enter" (fn [cm]
@@ -252,7 +317,7 @@
       (parinfer/parinferize! text-mirror
                              (str "text" (swap! pi-count inc))
                              :indent-mode
-                             text/text))
+                             text-quil/text))
 
     (.on text-mirror "keydown"
          (fn [inst evt]
@@ -275,4 +340,13 @@
                                  (save-settings %4)))
 
 (defonce -setup-text
-  (render-text))
+  (do
+    (parinfer/start-editor-sync!)
+    (render-text)))
+
+(swap! jsc/*loaded* conj
+       'org.processingjs.Processing
+       )
+
+(defn main [])
+(devtools/install!)
