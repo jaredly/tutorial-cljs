@@ -95,33 +95,29 @@
    (add-jar-thing
     'org.clojure/tools.reader
     "cljs/tools/reader/reader_types.clj")
-   #_(sift :add-jar {'quil #"quil/.*"})
-   #_(sift :move {#"quil/" "js/main.out/quil/"})
-   #_(sift :move {#"quil/sketch.clj" "js/main.out/quil/sketch.clj"
-                #"quil/util.clj" "js/main.out/quil/util.clj"
-                })))
+   ))
 
 (deftask dev []
   (set-env! :source-paths #{"src"})
   (set-env! :resource-paths #{"static"})
   (comp
-   (target :dir #{"dev"})
    (serve :dir "dev" :port 3003)
    (watch)
    ;; (speak)
    (reload :on-jsload 'tutorial-cljs.core/main)
    (cljs-repl)
    (cljs-and-stuff :none)
+   (target :dir #{"dev"})
    ))
 
 (deftask devfw []
   (set-env! :source-paths #(into % ["src"]))
   (comp (repl) (figwheel)))
 
-(deftask build []
+(deftask doit []
   (set-env! :source-paths #{"src"})
   (set-env! :resource-paths #{"static"})
   (comp
-   (target :dir #{"build"})
    (cljs-and-stuff :simple)
+   (target :dir #{"doit"})
    ))

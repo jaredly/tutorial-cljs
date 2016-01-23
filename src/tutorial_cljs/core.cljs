@@ -45,6 +45,24 @@
   (js/console.log repl-el)
   (r/render [repl/repl-view] repl-el))
 
-(reepl-replumb/run-repl "(ns tutorial.quil (:require [clojure.string :as str] [quil.core :as q]))"
+#_(def tutorials
+  {:cljs {:text text/text
+          :prelude "(ns tutorial.cljs (:require [clojure.string :as str]))"}
+   :quil {:text text-quil/text
+          :prelude "(ns tutorial.quil (:require [quil.core :as q]))"}
+   :reagent {:text text-reagent/text
+             :prelude "(ns tutorial.reagent (:require [reagent.core :as r]))"}
+   }
+  )
+
+
+(reepl-replumb/run-repl "(ns tutorial.quil (:require [quil.core :as q]))"
                         repl/replumb-opts
                         identity)
+
+;; TODO "rewind" state when a sketch is paused
+;; TODO persist the text across reloads
+;; TODO auto-pause when an error occurs
+;; TODO pause via keyboard shortcut
+;; TODO keyboard everything; allow "focus" the canvas
+;; TODO control framerate w/ slider
