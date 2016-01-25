@@ -108,34 +108,45 @@
 (defn save-text [name text]
   (aset js/localStorage (keyname name) text))
 
+(def tut-key "last-tutorial")
+
+(defn get-last-tutorial []
+  (let [s (aget js/localStorage tut-key)]
+    (when s (keyword s))))
+
+(defn save-last-tutorial [kwd]
+  (aset js/localStorage tut-key (name kwd)))
+
 (def default-showers
   [show-devtools/show-devtools
    (partial show-function/show-fn-with-docs maybe-fn-docs)])
 
-(defn setup-tutorial [name {:keys [title text prelude special-forms showers] :as tutorial}]
+(defn setup-tutorial [name]
   (js/console.log "setup" name)
+  (let [{:keys [title text prelude special-forms showers] :as tutorial} (tutorials name)]
+    (save-last-tutorial name)
 
-  (editor/render-text
-   (or (get-saved name)
-       text)
-   (concat showers default-showers)
-   special-forms
-   (partial save-text name))
+    (editor/render-text
+     (or (get-saved name)
+         text)
+     (concat showers default-showers)
+     special-forms
+     (partial save-text name))
 
-  ;; # Render REPL
-  ;; TODO pass in custom completers too
-  (let [repl-el (js/document.getElementById "repl")]
-    (r/render [repl/repl-view
-               name
-               (map #(assoc (second %) :name (first %)) tutorials)
-               #(setup-tutorial % (tutorials %))
-               (concat showers default-showers)
-               #(do
-                 (save-text name text)
-                 (setup-tutorial name tutorial))] repl-el))
+    ;; # Render REPL
+    ;; TODO pass in custom completers too
+    (let [repl-el (js/document.getElementById "repl")]
+      (r/render [repl/repl-view
+                 name
+                 (map #(assoc (second %) :name (first %)) tutorials)
+                 #(setup-tutorial %)
+                 (concat showers default-showers)
+                 #(do
+                    (save-text name text)
+                    (setup-tutorial name))] repl-el))
 
-  (reepl-replumb/run-repl prelude
-                          repl/replumb-opts
-                          identity))
+    (reepl-replumb/run-repl prelude
+                            repl/replumb-opts
+                            identity)))
 
-(setup-tutorial :quil (:quil tutorials))
+(setup-tutorial (or (get-last-tutorial) :quil))
