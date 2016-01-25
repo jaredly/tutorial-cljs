@@ -108,23 +108,27 @@
 (defn save-text [name text]
   (aset js/localStorage (keyname name) text))
 
-(def tut-key "last-tutorial")
-
-(defn get-last-tutorial []
-  (let [s (aget js/localStorage tut-key)]
-    (when s (keyword s))))
-
-(defn save-last-tutorial [kwd]
-  (aset js/localStorage tut-key (name kwd)))
-
 (def default-showers
   [show-devtools/show-devtools
    (partial show-function/show-fn-with-docs maybe-fn-docs)])
 
+(defn go-to-tutorial [tutorial]
+  (aset js/location "hash" (name tutorial)))
+
+(declare setup-tutorial)
+
+(defn go-from-hash []
+  (let [name (.slice (.-hash js/location) 1)
+        kwd (when (not (empty? name))
+              (keyword name))]
+    (setup-tutorial (if (and (tutorials kwd) kwd) kwd :quil))))
+
+(.addEventListener js/window "hashchange"
+                   go-from-hash)
+
 (defn setup-tutorial [name]
   (js/console.log "setup" name)
   (let [{:keys [title text prelude special-forms showers] :as tutorial} (tutorials name)]
-    (save-last-tutorial name)
 
     (editor/render-text
      (or (get-saved name)
@@ -139,7 +143,7 @@
       (r/render [repl/repl-view
                  name
                  (map #(assoc (second %) :name (first %)) tutorials)
-                 #(setup-tutorial %)
+                 #(go-to-tutorial %)
                  (concat showers default-showers)
                  #(do
                     (save-text name text)
@@ -149,4 +153,4 @@
                             repl/replumb-opts
                             identity)))
 
-(setup-tutorial (or (get-last-tutorial) :quil))
+(go-from-hash)
