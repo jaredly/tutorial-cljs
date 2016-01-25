@@ -45,6 +45,21 @@
                   :padding "6px 10px 8px"
                   :line-height "10px"
                   :color "#999"}
+   :play-pause-button {:cursor :pointer
+                       :background-color :transparent
+                       :border :none
+                       :font-weight :bold
+                       :font-size "1em"
+                       :padding "6px 10px 8px"
+                       :line-height "10px"
+                       :color "black"}
+   :pause-symbol {:border-width "0 4px 0 4px"
+                  :border-style "solid"
+                  :width 2
+                  :display "inline-block"
+                  :height 12
+                  :margin "0 2px 0px 2px"
+                  :border-color "#aaa"}
    })
 
 (defn canvas [[width height] on-canvas]
@@ -54,9 +69,11 @@
       (on-canvas (r/dom-node this)))
     :reagent-render
     (fn []
-      [:canvas {:width width :height height}])}))
+      [:canvas {:width width
+                :tab-index 0
+                :height height}])}))
 
-(defn mobile-sketch [name title size pos-atom on-canvas on-close]
+(defn mobile-sketch [name title size loop-atom pos-atom on-canvas on-close]
   (let [{:keys [left top]} @pos-atom
         state (r/atom {:top top
                        :left left
@@ -97,18 +114,19 @@
                     :moving true))
            }
           ;; [:span {:style (:name styles)} name]
+          [:button {:style (:play-pause-button styles)
+                    :title "Play/Pause"
+                    :on-click #(swap! loop-atom not)}
+           (if @loop-atom
+             [:span {:style (:pause-symbol styles)}]
+             #_"◼"
+             "▶")]
           [:span {:style (:title styles)} title]
           [:button {:on-click on-close
+                    :title "Close"
                     :style (:close-button styles)}
            "×"]
           ]]))))
-
-(defn make-el []
-  (let [el (js/document.createElement "canvas")]
-    (aset el "style" "position" "absolute")
-    (aset el "style" "top" "0")
-    (aset el "style" "right" "0")
-    el))
 
 (defn get-in-ns [ns sym]
   (let [parts (vec (map munge (.split (str ns) ".")))]
@@ -134,18 +152,33 @@
         pos-atom (or (:pos-atom old-data)
                      (atom {:top 20
                             :left (- (.-innerWidth js/window) width 20)}))
+        loop-atom (or (:loop-atom old-data)
+                      (r/atom true))
         _ (js/React.unmountComponentAtNode node)
         sketch (quil.sketch/make-sketch
                 ;; TODO get actual values for title & size...
                 {:title (:title opts)
                  :setup (fn []
-                          (let [new-applet (quil.sketch/current-applet)]
+                          (let [new-applet (quil.sketch/current-applet)
+                                old-loop (.bind (.-loop new-applet) new-applet)
+                                old-no-loop (.bind (.-noLoop new-applet) new-applet)
+                                ]
+                            (aset new-applet "loop" #(do (reset! loop-atom true)
+                                                         (old-loop)))
+                            (aset new-applet "noLoop" #(do (reset! loop-atom false)
+                                                         (old-no-loop)))
                             (swap! applets update (:name opts)
                                    (fn [old]
                                      (when old (.exit (:applet old)))
                                      {:node node
                                       :pos-atom pos-atom
+                                      :loop-atom loop-atom
                                       :applet new-applet}))
+                            (add-watch loop-atom :wat
+                                       (fn [_ _ _ new-val]
+                                         (if new-val
+                                           (old-loop)
+                                           (old-no-loop))))
                             (reset! current-applet new-applet)
                             ;; Allow q/* functions to be used from the REPL
                             (js/setTimeout #(set! quil.sketch/*applet* new-applet) 5)
@@ -160,6 +193,7 @@
       (str (:name opts))
       (:title opts)
       (:size opts)
+      loop-atom
       pos-atom
       #(js/Processing. % sketch)
       (fn []

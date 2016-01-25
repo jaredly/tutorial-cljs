@@ -34,23 +34,23 @@ quil.middlewares.fun_mode.key_event = (function quil$middlewares$fun_mode$key_ev
 return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"key","key",-1516042587),quil.core.key_as_keyword.call(null),new cljs.core.Keyword(null,"key-code","key-code",-1732114304),quil.core.key_code.call(null),new cljs.core.Keyword(null,"raw-key","raw-key",-162482279),quil.core.raw_key.call(null)], null);
 });
 quil.middlewares.fun_mode.wrap_handler = (function quil$middlewares$fun_mode$wrap_handler(var_args){
-var args21066 = [];
-var len__7511__auto___21069 = arguments.length;
-var i__7512__auto___21070 = (0);
+var args21068 = [];
+var len__7511__auto___21071 = arguments.length;
+var i__7512__auto___21072 = (0);
 while(true){
-if((i__7512__auto___21070 < len__7511__auto___21069)){
-args21066.push((arguments[i__7512__auto___21070]));
+if((i__7512__auto___21072 < len__7511__auto___21071)){
+args21068.push((arguments[i__7512__auto___21072]));
 
-var G__21071 = (i__7512__auto___21070 + (1));
-i__7512__auto___21070 = G__21071;
+var G__21073 = (i__7512__auto___21072 + (1));
+i__7512__auto___21072 = G__21073;
 continue;
 } else {
 }
 break;
 }
 
-var G__21068 = args21066.length;
-switch (G__21068) {
+var G__21070 = args21068.length;
+switch (G__21070) {
 case 2:
 return quil.middlewares.fun_mode.wrap_handler.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -60,7 +60,7 @@ return quil.middlewares.fun_mode.wrap_handler.cljs$core$IFn$_invoke$arity$3((arg
 
 break;
 default:
-throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args21066.length)].join('')));
+throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args21068.length)].join('')));
 
 }
 });
@@ -90,14 +90,14 @@ return options;
 quil.middlewares.fun_mode.wrap_handler.cljs$lang$maxFixedArity = 3;
 quil.middlewares.fun_mode.wrap_handlers = (function quil$middlewares$fun_mode$wrap_handlers(var_args){
 var args__7518__auto__ = [];
-var len__7511__auto___21075 = arguments.length;
-var i__7512__auto___21076 = (0);
+var len__7511__auto___21077 = arguments.length;
+var i__7512__auto___21078 = (0);
 while(true){
-if((i__7512__auto___21076 < len__7511__auto___21075)){
-args__7518__auto__.push((arguments[i__7512__auto___21076]));
+if((i__7512__auto___21078 < len__7511__auto___21077)){
+args__7518__auto__.push((arguments[i__7512__auto___21078]));
 
-var G__21077 = (i__7512__auto___21076 + (1));
-i__7512__auto___21076 = G__21077;
+var G__21079 = (i__7512__auto___21078 + (1));
+i__7512__auto___21078 = G__21079;
 continue;
 } else {
 }
@@ -120,10 +120,10 @@ return cljs.core.apply.call(null,quil.middlewares.fun_mode.wrap_handler,options_
 
 quil.middlewares.fun_mode.wrap_handlers.cljs$lang$maxFixedArity = (1);
 
-quil.middlewares.fun_mode.wrap_handlers.cljs$lang$applyTo = (function (seq21073){
-var G__21074 = cljs.core.first.call(null,seq21073);
-var seq21073__$1 = cljs.core.next.call(null,seq21073);
-return quil.middlewares.fun_mode.wrap_handlers.cljs$core$IFn$_invoke$arity$variadic(G__21074,seq21073__$1);
+quil.middlewares.fun_mode.wrap_handlers.cljs$lang$applyTo = (function (seq21075){
+var G__21076 = cljs.core.first.call(null,seq21075);
+var seq21075__$1 = cljs.core.next.call(null,seq21075);
+return quil.middlewares.fun_mode.wrap_handlers.cljs$core$IFn$_invoke$arity$variadic(G__21076,seq21075__$1);
 });
 quil.middlewares.fun_mode.wrap_mouse_wheel = (function quil$middlewares$fun_mode$wrap_mouse_wheel(options){
 var temp__4423__auto__ = new cljs.core.Keyword(null,"mouse-wheel","mouse-wheel",1811662439).cljs$core$IFn$_invoke$arity$1(options);
