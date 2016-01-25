@@ -2,7 +2,8 @@
 
 ## [Try it Out](https://jaredforsyth.com/tutorial-cljs)
 
-![screenshot](./screenshot.png)
+[![screenshot](./screenshot.png)](https://www.youtube.com/watch?v=DQSdW27Esto)
+[Screencast](https://www.youtube.com/watch?v=DQSdW27Esto)
 
 ## To Build
 
