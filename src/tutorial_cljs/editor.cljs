@@ -1,17 +1,14 @@
 (ns tutorial-cljs.editor
   (:require
    [reepl.core :as reepl]
-   [tutorial-cljs.text :as text]
    [tutorial-cljs.repl :as repl]
-   [tutorial-cljs.text-quil :as text-quil]
    [tutorial-cljs.inline-eval :as inline-eval]
    ))
 
-(def complete-cmd
-  (reepl/make-complete-cmd repl/auto-complete repl/complete-atom))
+(defn render-text [initial-text showers special-forms on-change]
+  (let [text-el (js/document.getElementById "text")
+        complete-cmd (reepl/make-complete-cmd repl/auto-complete repl/complete-atom)]
 
-(defn render-text []
-  (let [text-el (js/document.getElementById "text")]
     (aset text-el "innerHTML" "")
     (def text-mirror
       (js/CodeMirror.
@@ -19,26 +16,29 @@
        #js {:lineNumbers true
             :matchBrackets true
             :cursorScrollMargin 5
-            :value text-quil/text
+            :value initial-text
             :keyMap (if (:vim @repl/settings) "vim" "default")
             :extraKeys #js {"Shift-Cmd-Enter" (fn [_] (inline-eval/hide-display))
                             "Shift-Ctrl-Enter" (fn [_] (inline-eval/hide-display))
                             "Ctrl-Enter" (fn [cm]
-                                          (inline-eval/eval-current-form cm))
+                                          (inline-eval/eval-current-form cm showers special-forms))
                             "Cmd-Enter" (fn [cm]
-                                          (inline-eval/eval-current-form cm))}
+                                          (inline-eval/eval-current-form cm showers special-forms))}
             :autoCloseBrackets true
             :mode "clojure"
             #_(if (:parinfer @settings)
                 "clojure-parinfer"
                 "clojure")}))
+    ;; TODO debounce?
+    (.on text-mirror "change" #(on-change (.getValue text-mirror)))
+
     ;; TODO parinfer is way too slow for large files -- once it speeds up, it
     ;; would be awesome to have that here.
     #_(if (:parinfer @settings)
       (parinfer/parinferize! text-mirror
                              (str "text" (swap! pi-count inc))
                              :indent-mode
-                             text-quil/text))
+                             initial-text))
 
     (.on text-mirror "keydown"
          (fn [inst evt]

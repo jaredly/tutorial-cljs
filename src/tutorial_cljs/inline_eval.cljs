@@ -80,29 +80,32 @@
        [:span {:style (:error-cause styles)}
         (.-message cause)])]))
 
-(defn show-output-view [success? value]
+(defn show-output-view [showers success? value]
   [:div {:style (:output-wrapper styles)}
    (if-not success?
      [show-error value]
      [reepl.show-value/show-value
       value
       nil
-      {:showers [reepl.show-devtools/show-devtools
-                 reepl.show-function/show-fn]}])])
+      {:showers showers}])])
 
-(defn show-output [cm pos success? value]
+(defn show-output [cm showers pos success? value]
   ;; TODO display things cooler. using cljs-devtools, etc.
   ;; (js* "debugger;")
-  (r/render (show-output-view success? value) display-el)
+  (r/render (show-output-view showers success? value) display-el)
   (.addWidget cm pos display-el true))
 
-(defn eval-current-form [cm]
+(defn eval-current-form [cm showers special-forms]
   (when-let [[form pos] (get-active-form cm)
              ]
     (let [form (.trim form)
           is-list (= \( (first form))
           first-item (and is-list
-                          (reader/read-string (.slice form 1)))]
-      (if (= first-item 'makesketch)
-        (quil-sketch/handle-make-sketch (replumb.repl/current-ns) (reader/read-string form))
-        (reepl-replumb/run-repl form repl/replumb-opts (partial show-output cm pos))))))
+                          (reader/read-string (.slice form 1)))
+          special-handle (and special-forms (special-forms first-item))]
+      (if special-handle
+        (special-handle form)
+        (reepl-replumb/run-repl
+         form
+         repl/replumb-opts
+         (partial show-output cm showers pos))))))

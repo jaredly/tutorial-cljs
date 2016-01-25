@@ -1,4 +1,4 @@
-(ns tutorial-cljs.text-quil)
+(ns tutorial-cljs.text.quil)
 
 (def text
 ";; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -73,10 +73,9 @@ map
 (defn draw [state]
   )
 
-;; In normal quil, this would be `q/defketch`, but we're doing some magic so that
-;; it will work in this tutorial enviornment. The API is the same, although we
-;; automatically enable the `fun-mode` middleware for you.
-
+;; In normal quil, this `makesketch` would be `q/defsketch`, but we're doing some
+;; magic so that it will work in this tutorial enviornment. The API is the same,
+;; although we automatically enable the `fun-mode` middleware for you.
 (makesketch example
   :title \"My Sketch\"
   :setup setup
@@ -100,24 +99,27 @@ map
 
 ;; # Solids & fill
 
-(q/rect 0 0 10 10)
+(q/rect 20 20 200 200)
 
 ;; You can change the fill
 (q/fill 200) ; one argument (0-255) means gray
 
+(q/rect 20 20 200 200) ; now evalute again, and see that the color has changed
+
 (q/fill 0 255 100) ; three arguments (0-255) mean red, green, blue
 
-(q/rect 0 0 20 30) ; now evalute again, and see that the color has changed
+(q/rect 20 20 200 200)
 
-(q/ellipse 100 100 10 30) ; unlike the rect, the ellipse is *centered* around the first two args
+(q/ellipse 100 100 60 30) ; unlike the rect, the ellipse is *centered* around the first two args
 
 ;; # Lines & Stroke
 
-(q/line 0 0 100 100)
+(q/line 0 0 200 100)
 
 (q/stroke 255 0 100) ; you can also pass one arg for gray
 (q/stroke-weight 20)
-;; now try that line ^ again
+
+(q/line 0 0 200 100) ;; now try that line ^ again
 
 ;; You can clear the canvas at any time with this
 (q/background 255) ; 255 = white
