@@ -8,6 +8,7 @@
 (def view-style {:display "flex"
                  :flex-direction "column"
                  :min-height 0
+                 :min-width 0
                  :flex-shrink 0
                  :box-sizing "border-box"})
 
@@ -31,7 +32,7 @@
     (parse-props styles default-style {:style props})
     (merge {:style (merge default-style (get-styles styles (:style props)))}
            (dissoc props :style)))
-  #_(if (keyword? props) 
+  #_(if (keyword? props)
     {:style (merge default-style (props styles))}
     (let [style-prop (:style props)
           style (if (keyword? style-prop)

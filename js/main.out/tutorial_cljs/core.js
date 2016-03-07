@@ -4,6 +4,7 @@ goog.require('cljs.core');
 goog.require('reepl.show_devtools');
 goog.require('replumb.core');
 goog.require('parinfer_codemirror.editor');
+goog.require('clojure.zip');
 goog.require('tutorial_cljs.inline_eval');
 goog.require('tutorial_cljs.editor');
 goog.require('tutorial_cljs.text.webgl');
@@ -18,6 +19,7 @@ goog.require('tutorial_cljs.quil_sketch');
 goog.require('tutorial_cljs.text.quil');
 goog.require('reepl.show_value');
 goog.require('devtools.core');
+goog.require('cljsjs.codemirror');
 goog.require('quil.core');
 goog.require('quil.middleware');
 goog.require('reepl.show_function');
@@ -44,8 +46,8 @@ return val;
 return null;
 }
 });
-tutorial_cljs.core.tutorials = new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"cljs","cljs",1492417629),new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"text","text",-1790561697),tutorial_cljs.text.cljs.text,new cljs.core.Keyword(null,"title","title",636505583),"ClojureScript",new cljs.core.Keyword(null,"prelude","prelude",-138977836),"(ns tutorial.cljs (:require [clojure.string :as str]))"], null),new cljs.core.Keyword(null,"quil","quil",-2129832017),new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"text","text",-1790561697),tutorial_cljs.text.quil.text,new cljs.core.Keyword(null,"title","title",636505583),"Quil",new cljs.core.Keyword(null,"special-forms","special-forms",2132846301),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Symbol(null,"makesketch","makesketch",471599374,null),(function (p1__21155_SHARP_){
-return tutorial_cljs.quil_sketch.handle_make_sketch.call(null,replumb.repl.current_ns.call(null),cljs.tools.reader.read_string.call(null,p1__21155_SHARP_));
+tutorial_cljs.core.tutorials = new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"cljs","cljs",1492417629),new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"text","text",-1790561697),tutorial_cljs.text.cljs.text,new cljs.core.Keyword(null,"title","title",636505583),"ClojureScript",new cljs.core.Keyword(null,"prelude","prelude",-138977836),"(ns tutorial.cljs (:require [clojure.string :as str]))"], null),new cljs.core.Keyword(null,"quil","quil",-2129832017),new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"text","text",-1790561697),tutorial_cljs.text.quil.text,new cljs.core.Keyword(null,"title","title",636505583),"Quil",new cljs.core.Keyword(null,"special-forms","special-forms",2132846301),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Symbol(null,"makesketch","makesketch",471599374,null),(function (p1__16376_SHARP_){
+return tutorial_cljs.quil_sketch.handle_make_sketch.call(null,replumb.repl.current_ns.call(null),cljs.tools.reader.read_string.call(null,p1__16376_SHARP_));
 })], null),new cljs.core.Keyword(null,"prelude","prelude",-138977836),"(ns tutorial.quil (:require [quil.core :as q]))"], null),new cljs.core.Keyword(null,"reagent","reagent",2131627322),new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"text","text",-1790561697),tutorial_cljs.text.reagent.text,new cljs.core.Keyword(null,"title","title",636505583),"Reagent",new cljs.core.Keyword(null,"showers","showers",1548575441),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [tutorial_cljs.core.reagent_shower], null),new cljs.core.Keyword(null,"prelude","prelude",-138977836),"(ns tutorial.reagent (:require [reagent.core :as r]))"], null)], null);
 tutorial_cljs.core.main = (function tutorial_cljs$core$main(){
 return null;
@@ -64,20 +66,20 @@ tutorial_cljs.core.maybe_fn_docs = (function tutorial_cljs$core$maybe_fn_docs(fn
 var doc = reepl.replumb.doc_from_sym.call(null,fn);
 if(cljs.core.truth_(new cljs.core.Keyword(null,"forms","forms",2045992350).cljs$core$IFn$_invoke$arity$1(doc))){
 var sb__7427__auto__ = (new goog.string.StringBuffer());
-var _STAR_print_newline_STAR_21158_21160 = cljs.core._STAR_print_newline_STAR_;
-var _STAR_print_fn_STAR_21159_21161 = cljs.core._STAR_print_fn_STAR_;
+var _STAR_print_newline_STAR_16379_16381 = cljs.core._STAR_print_newline_STAR_;
+var _STAR_print_fn_STAR_16380_16382 = cljs.core._STAR_print_fn_STAR_;
 cljs.core._STAR_print_newline_STAR_ = true;
 
-cljs.core._STAR_print_fn_STAR_ = ((function (_STAR_print_newline_STAR_21158_21160,_STAR_print_fn_STAR_21159_21161,sb__7427__auto__,doc){
+cljs.core._STAR_print_fn_STAR_ = ((function (_STAR_print_newline_STAR_16379_16381,_STAR_print_fn_STAR_16380_16382,sb__7427__auto__,doc){
 return (function (x__7428__auto__){
 return sb__7427__auto__.append(x__7428__auto__);
-});})(_STAR_print_newline_STAR_21158_21160,_STAR_print_fn_STAR_21159_21161,sb__7427__auto__,doc))
+});})(_STAR_print_newline_STAR_16379_16381,_STAR_print_fn_STAR_16380_16382,sb__7427__auto__,doc))
 ;
 
 try{reepl.replumb.print_doc.call(null,doc);
-}finally {cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR_21159_21161;
+}finally {cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR_16380_16382;
 
-cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR_21158_21160;
+cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR_16379_16381;
 }
 return [cljs.core.str(sb__7427__auto__)].join('');
 } else {
@@ -112,14 +114,14 @@ window.addEventListener("hashchange",tutorial_cljs.core.go_from_hash);
 tutorial_cljs.core.setup_tutorial = (function tutorial_cljs$core$setup_tutorial(name){
 console.log("setup",name);
 
-var map__21166 = tutorial_cljs.core.tutorials.call(null,name);
-var map__21166__$1 = ((((!((map__21166 == null)))?((((map__21166.cljs$lang$protocol_mask$partition0$ & (64))) || (map__21166.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__21166):map__21166);
-var tutorial = map__21166__$1;
-var title = cljs.core.get.call(null,map__21166__$1,new cljs.core.Keyword(null,"title","title",636505583));
-var text = cljs.core.get.call(null,map__21166__$1,new cljs.core.Keyword(null,"text","text",-1790561697));
-var prelude = cljs.core.get.call(null,map__21166__$1,new cljs.core.Keyword(null,"prelude","prelude",-138977836));
-var special_forms = cljs.core.get.call(null,map__21166__$1,new cljs.core.Keyword(null,"special-forms","special-forms",2132846301));
-var showers = cljs.core.get.call(null,map__21166__$1,new cljs.core.Keyword(null,"showers","showers",1548575441));
+var map__16387 = tutorial_cljs.core.tutorials.call(null,name);
+var map__16387__$1 = ((((!((map__16387 == null)))?((((map__16387.cljs$lang$protocol_mask$partition0$ & (64))) || (map__16387.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__16387):map__16387);
+var tutorial = map__16387__$1;
+var title = cljs.core.get.call(null,map__16387__$1,new cljs.core.Keyword(null,"title","title",636505583));
+var text = cljs.core.get.call(null,map__16387__$1,new cljs.core.Keyword(null,"text","text",-1790561697));
+var prelude = cljs.core.get.call(null,map__16387__$1,new cljs.core.Keyword(null,"prelude","prelude",-138977836));
+var special_forms = cljs.core.get.call(null,map__16387__$1,new cljs.core.Keyword(null,"special-forms","special-forms",2132846301));
+var showers = cljs.core.get.call(null,map__16387__$1,new cljs.core.Keyword(null,"showers","showers",1548575441));
 tutorial_cljs.editor.render_text.call(null,(function (){var or__6453__auto__ = tutorial_cljs.core.get_saved.call(null,name);
 if(cljs.core.truth_(or__6453__auto__)){
 return or__6453__auto__;
@@ -128,23 +130,25 @@ return text;
 }
 })(),cljs.core.concat.call(null,showers,tutorial_cljs.core.default_showers),special_forms,cljs.core.partial.call(null,tutorial_cljs.core.save_text,name));
 
-var repl_el_21168 = document.getElementById("repl");
-reagent.core.render.call(null,new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [tutorial_cljs.repl.repl_view,name,cljs.core.map.call(null,((function (repl_el_21168,map__21166,map__21166__$1,tutorial,title,text,prelude,special_forms,showers){
-return (function (p1__21162_SHARP_){
-return cljs.core.assoc.call(null,cljs.core.second.call(null,p1__21162_SHARP_),new cljs.core.Keyword(null,"name","name",1843675177),cljs.core.first.call(null,p1__21162_SHARP_));
-});})(repl_el_21168,map__21166,map__21166__$1,tutorial,title,text,prelude,special_forms,showers))
-,tutorial_cljs.core.tutorials),((function (repl_el_21168,map__21166,map__21166__$1,tutorial,title,text,prelude,special_forms,showers){
-return (function (p1__21163_SHARP_){
-return tutorial_cljs.core.go_to_tutorial.call(null,p1__21163_SHARP_);
-});})(repl_el_21168,map__21166,map__21166__$1,tutorial,title,text,prelude,special_forms,showers))
-,cljs.core.concat.call(null,showers,tutorial_cljs.core.default_showers),((function (repl_el_21168,map__21166,map__21166__$1,tutorial,title,text,prelude,special_forms,showers){
+var repl_el_16389 = document.getElementById("repl");
+reagent.core.render.call(null,new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [tutorial_cljs.repl.repl_view,name,cljs.core.map.call(null,((function (repl_el_16389,map__16387,map__16387__$1,tutorial,title,text,prelude,special_forms,showers){
+return (function (p1__16383_SHARP_){
+return cljs.core.assoc.call(null,cljs.core.second.call(null,p1__16383_SHARP_),new cljs.core.Keyword(null,"name","name",1843675177),cljs.core.first.call(null,p1__16383_SHARP_));
+});})(repl_el_16389,map__16387,map__16387__$1,tutorial,title,text,prelude,special_forms,showers))
+,tutorial_cljs.core.tutorials),((function (repl_el_16389,map__16387,map__16387__$1,tutorial,title,text,prelude,special_forms,showers){
+return (function (p1__16384_SHARP_){
+return tutorial_cljs.core.go_to_tutorial.call(null,p1__16384_SHARP_);
+});})(repl_el_16389,map__16387,map__16387__$1,tutorial,title,text,prelude,special_forms,showers))
+,cljs.core.concat.call(null,showers,tutorial_cljs.core.default_showers),((function (repl_el_16389,map__16387,map__16387__$1,tutorial,title,text,prelude,special_forms,showers){
 return (function (){
 tutorial_cljs.core.save_text.call(null,name,text);
 
 return tutorial_cljs$core$setup_tutorial.call(null,name);
-});})(repl_el_21168,map__21166,map__21166__$1,tutorial,title,text,prelude,special_forms,showers))
-], null),repl_el_21168);
+});})(repl_el_16389,map__16387,map__16387__$1,tutorial,title,text,prelude,special_forms,showers))
+], null),repl_el_16389);
 
 return reepl.replumb.run_repl.call(null,prelude,tutorial_cljs.repl.replumb_opts,cljs.core.identity);
 });
 tutorial_cljs.core.go_from_hash.call(null);
+
+//# sourceMappingURL=core.js.map

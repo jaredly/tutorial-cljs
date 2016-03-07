@@ -1,2 +1,1 @@
-{:require [tutorial-cljs.core]
- :compiler-options {:asset-path "js/main.out"}}
+{:require [tutorial-cljs.core adzerk.boot-reload adzerk.boot-cljs-repl], :compiler-options {:asset-path "js/main.out"}}

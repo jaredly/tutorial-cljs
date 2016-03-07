@@ -1,0 +1,2 @@
+;; Analyzed by ClojureScript 1.7.228
+{:name tutorial-cljs.text.cljs, :doc nil, :excludes #{}, :use-macros nil, :require-macros nil, :uses nil, :requires nil, :imports nil, :defs {text {:name tutorial-cljs.text.cljs/text, :file "/Users/jared/.boot/cache/tmp/Users/jared/clone/clojure/tutorial-cljs/1y1r/rcesf6/tutorial_cljs/text/cljs.cljs", :line 3, :column 1, :end-line 3, :end-column 10, :meta {:file "/Users/jared/.boot/cache/tmp/Users/jared/clone/clojure/tutorial-cljs/1y1r/rcesf6/tutorial_cljs/text/cljs.cljs", :line 3, :column 6, :end-line 3, :end-column 10}}}}

@@ -19,6 +19,7 @@
 (def styles
   {:container {:display :flex
                :flex-direction :column
+               :min-width 0
                :flex 1
                :align-self :stretch
                :justify-content :center

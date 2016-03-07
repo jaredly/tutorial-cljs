@@ -21,9 +21,9 @@ return cljs.core._EQ_.call(null,Array,cljs.core.type.call(null,val));
 });
 reepl.show_devtools.parse_style = (function reepl$show_devtools$parse_style(raw){
 return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (line){
-var vec__19860 = clojure.string.split.call(null,line,":");
-var k = cljs.core.nth.call(null,vec__19860,(0),null);
-var v = cljs.core.nth.call(null,vec__19860,(1),null);
+var vec__15081 = clojure.string.split.call(null,line,":");
+var k = cljs.core.nth.call(null,vec__15081,(0),null);
+var v = cljs.core.nth.call(null,vec__15081,(1),null);
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k),v], null);
 }),clojure.string.split.call(null,raw,";")));
 });
@@ -35,11 +35,11 @@ if(cljs.core._EQ_.call(null,"object",type)){
 return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [show_value,opts.object,opts.config], null);
 } else {
 return cljs.core.into.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,type),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"style","style",-496642736),(cljs.core.truth_(opts)?reepl.show_devtools.parse_style.call(null,opts.style):null)], null)], null),cljs.core.map.call(null,((function (type,opts,children){
-return (function (p1__19861_SHARP_){
-if(cljs.core.not.call(null,reepl.show_devtools.js_array_QMARK_.call(null,p1__19861_SHARP_))){
-return p1__19861_SHARP_;
+return (function (p1__15082_SHARP_){
+if(cljs.core.not.call(null,reepl.show_devtools.js_array_QMARK_.call(null,p1__15082_SHARP_))){
+return p1__15082_SHARP_;
 } else {
-return reepl$show_devtools$show_el.call(null,p1__19861_SHARP_,show_value);
+return reepl$show_devtools$show_el.call(null,p1__15082_SHARP_,show_value);
 }
 });})(type,opts,children))
 ,children));
@@ -63,11 +63,11 @@ if(cljs.core.var_QMARK_.call(null,val)){
 return null;
 } else {
 var header = (function (){try{return devtools.format.header_api_call.call(null,val,config);
-}catch (e19863){if((e19863 instanceof Error)){
-var e = e19863;
+}catch (e15084){if((e15084 instanceof Error)){
+var e = e15084;
 return e;
 } else {
-throw e19863;
+throw e15084;
 
 }
 }})();
@@ -87,3 +87,5 @@ return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMP
 }
 }
 });
+
+//# sourceMappingURL=show_devtools.js.map

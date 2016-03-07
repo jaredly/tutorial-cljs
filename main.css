@@ -15,10 +15,12 @@ body {
 
 #text {
     flex: 1;
+    min-width: 500px;
 }
 
 #repl {
     flex: 1;
+    min-width: 500px;
 }
 
 h1, h4 {

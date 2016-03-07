@@ -31,8 +31,8 @@ throw (new Error([cljs.core.str("Expecting a keyword, got: "),cljs.core.str(key)
  * (length-of-longest-key {}) ;=> 0
  */
 quil.util.length_of_longest_key = (function quil$util$length_of_longest_key(m){
-var or__6453__auto__ = cljs.core.last.call(null,cljs.core.sort.call(null,cljs.core.map.call(null,(function (p1__19912_SHARP_){
-return p1__19912_SHARP_.length();
+var or__6453__auto__ = cljs.core.last.call(null,cljs.core.sort.call(null,cljs.core.map.call(null,(function (p1__15133_SHARP_){
+return p1__15133_SHARP_.length();
 }),cljs.core.keys.call(null,m))));
 if(cljs.core.truth_(or__6453__auto__)){
 return or__6453__auto__;
@@ -47,23 +47,23 @@ return (0);
  * empty string and also without pad in which case it defaults to a single space
  */
 quil.util.gen_padding = (function quil$util$gen_padding(var_args){
-var args19913 = [];
-var len__7511__auto___19916 = arguments.length;
-var i__7512__auto___19917 = (0);
+var args15134 = [];
+var len__7511__auto___15137 = arguments.length;
+var i__7512__auto___15138 = (0);
 while(true){
-if((i__7512__auto___19917 < len__7511__auto___19916)){
-args19913.push((arguments[i__7512__auto___19917]));
+if((i__7512__auto___15138 < len__7511__auto___15137)){
+args15134.push((arguments[i__7512__auto___15138]));
 
-var G__19918 = (i__7512__auto___19917 + (1));
-i__7512__auto___19917 = G__19918;
+var G__15139 = (i__7512__auto___15138 + (1));
+i__7512__auto___15138 = G__15139;
 continue;
 } else {
 }
 break;
 }
 
-var G__19915 = args19913.length;
-switch (G__19915) {
+var G__15136 = args15134.length;
+switch (G__15136) {
 case 1:
 return quil.util.gen_padding.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -77,7 +77,7 @@ return quil.util.gen_padding.cljs$core$IFn$_invoke$arity$3((arguments[(0)]),(arg
 
 break;
 default:
-throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args19913.length)].join('')));
+throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args15134.length)].join('')));
 
 }
 });
@@ -102,10 +102,10 @@ quil.util.gen_padding.cljs$lang$maxFixedArity = 3;
 quil.util.print_definition_list = (function quil$util$print_definition_list(definitions){
 var longest_key = quil.util.length_of_longest_key.call(null,definitions);
 return cljs.core.dorun.call(null,cljs.core.map.call(null,((function (longest_key){
-return (function (p__19922){
-var vec__19923 = p__19922;
-var k = cljs.core.nth.call(null,vec__19923,(0),null);
-var v = cljs.core.nth.call(null,vec__19923,(1),null);
+return (function (p__15143){
+var vec__15144 = p__15143;
+var k = cljs.core.nth.call(null,vec__15144,(0),null);
+var v = cljs.core.nth.call(null,vec__15144,(1),null);
 var len = k.length();
 var diff = (longest_key - len);
 var pad = quil.util.gen_padding.call(null,diff);
@@ -116,3 +116,5 @@ return cljs.core.println.call(null,k,pad,"- ",v);
 quil.util.prepare_quil_name = (function quil$util$prepare_quil_name(const_keyword){
 return clojure.string.replace.call(null,clojure.string.upper_case.call(null,cljs.core.name.call(null,const_keyword)),/-/,"_");
 });
+
+//# sourceMappingURL=util.js.map

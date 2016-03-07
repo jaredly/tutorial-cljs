@@ -56,7 +56,7 @@ return (function re_frame$middleware$log_ex_$_log_ex_handler(db,v){
 re_frame.utils.warn.call(null,"re-frame: use of \"log-ex\" is deprecated. You don't need it any more IF YOU ARE USING CHROME 44. Chrome now seems to now produce good stack traces.");
 
 try{return handler.call(null,db,v);
-}catch (e16600){var e = e16600;
+}catch (e12770){var e = e12770;
 console.error(e.stack);
 
 throw e;
@@ -128,14 +128,14 @@ return cljs.core.update_in.call(null,db,path__$1,handler,v);
 var re_frame$middleware$path = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__16601__i = 0, G__16601__a = new Array(arguments.length -  0);
-while (G__16601__i < G__16601__a.length) {G__16601__a[G__16601__i] = arguments[G__16601__i + 0]; ++G__16601__i;}
-  args = new cljs.core.IndexedSeq(G__16601__a,0);
+var G__12771__i = 0, G__12771__a = new Array(arguments.length -  0);
+while (G__12771__i < G__12771__a.length) {G__12771__a[G__12771__i] = arguments[G__12771__i + 0]; ++G__12771__i;}
+  args = new cljs.core.IndexedSeq(G__12771__a,0);
 } 
 return re_frame$middleware$path__delegate.call(this,args);};
 re_frame$middleware$path.cljs$lang$maxFixedArity = 0;
-re_frame$middleware$path.cljs$lang$applyTo = (function (arglist__16602){
-var args = cljs.core.seq(arglist__16602);
+re_frame$middleware$path.cljs$lang$applyTo = (function (arglist__12772){
+var args = cljs.core.seq(arglist__12772);
 return re_frame$middleware$path__delegate(args);
 });
 re_frame$middleware$path.cljs$core$IFn$_invoke$arity$variadic = re_frame$middleware$path__delegate;
@@ -231,13 +231,13 @@ return (function re_frame$middleware$on_changes_$_on_changed_middleware(handler)
 return (function re_frame$middleware$on_changes_$_on_changed_middleware_$_on_changed_handler(db,v){
 var new_db = handler.call(null,db,v);
 var new_ins = cljs.core.map.call(null,((function (new_db){
-return (function (p1__16603_SHARP_){
-return cljs.core.get_in.call(null,new_db,p1__16603_SHARP_);
+return (function (p1__12773_SHARP_){
+return cljs.core.get_in.call(null,new_db,p1__12773_SHARP_);
 });})(new_db))
 ,in_paths);
 var old_ins = cljs.core.map.call(null,((function (new_db,new_ins){
-return (function (p1__16604_SHARP_){
-return cljs.core.get_in.call(null,db,p1__16604_SHARP_);
+return (function (p1__12774_SHARP_){
+return cljs.core.get_in.call(null,db,p1__12774_SHARP_);
 });})(new_db,new_ins))
 ,in_paths);
 var changed_ins_QMARK_ = cljs.core.some.call(null,cljs.core.false_QMARK_,cljs.core.map.call(null,cljs.core.identical_QMARK_,new_ins,old_ins));
@@ -252,20 +252,22 @@ return new_db;
 var re_frame$middleware$on_changes = function (f,out_path,var_args){
 var in_paths = null;
 if (arguments.length > 2) {
-var G__16605__i = 0, G__16605__a = new Array(arguments.length -  2);
-while (G__16605__i < G__16605__a.length) {G__16605__a[G__16605__i] = arguments[G__16605__i + 2]; ++G__16605__i;}
-  in_paths = new cljs.core.IndexedSeq(G__16605__a,0);
+var G__12775__i = 0, G__12775__a = new Array(arguments.length -  2);
+while (G__12775__i < G__12775__a.length) {G__12775__a[G__12775__i] = arguments[G__12775__i + 2]; ++G__12775__i;}
+  in_paths = new cljs.core.IndexedSeq(G__12775__a,0);
 } 
 return re_frame$middleware$on_changes__delegate.call(this,f,out_path,in_paths);};
 re_frame$middleware$on_changes.cljs$lang$maxFixedArity = 2;
-re_frame$middleware$on_changes.cljs$lang$applyTo = (function (arglist__16606){
-var f = cljs.core.first(arglist__16606);
-arglist__16606 = cljs.core.next(arglist__16606);
-var out_path = cljs.core.first(arglist__16606);
-var in_paths = cljs.core.rest(arglist__16606);
+re_frame$middleware$on_changes.cljs$lang$applyTo = (function (arglist__12776){
+var f = cljs.core.first(arglist__12776);
+arglist__12776 = cljs.core.next(arglist__12776);
+var out_path = cljs.core.first(arglist__12776);
+var in_paths = cljs.core.rest(arglist__12776);
 return re_frame$middleware$on_changes__delegate(f,out_path,in_paths);
 });
 re_frame$middleware$on_changes.cljs$core$IFn$_invoke$arity$variadic = re_frame$middleware$on_changes__delegate;
 return re_frame$middleware$on_changes;
 })()
 ,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"re-frame-factory-name","re-frame-factory-name",-1205706462),"on-changes"], null));
+
+//# sourceMappingURL=middleware.js.map
